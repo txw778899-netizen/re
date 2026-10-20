@@ -1,0 +1,329 @@
+{
+  "description": "GENERATED from a real browser by tools/gen-fixtures.mjs — do not hand-edit.",
+  "templates": [
+    {
+      "name": "static-only",
+      "strings": [
+        "<br>"
+      ],
+      "html": "<br>",
+      "slots": []
+    },
+    {
+      "name": "text-single",
+      "strings": [
+        "<p>Hello ",
+        "</p>"
+      ],
+      "html": "<p>Hello \u00010\u0002</p>",
+      "slots": [
+        {
+          "k": 0,
+          "i": 0,
+          "p": [
+            0,
+            1
+          ]
+        }
+      ]
+    },
+    {
+      "name": "text-double",
+      "strings": [
+        "<p>",
+        " and ",
+        "</p>"
+      ],
+      "html": "<p>\u00010\u0002 and \u00011\u0002</p>",
+      "slots": [
+        {
+          "k": 0,
+          "i": 0,
+          "p": [
+            0,
+            0
+          ]
+        },
+        {
+          "k": 0,
+          "i": 1,
+          "p": [
+            0,
+            2
+          ]
+        }
+      ]
+    },
+    {
+      "name": "text-adjacent",
+      "strings": [
+        "<p>",
+        "",
+        "</p>"
+      ],
+      "html": "<p>\u00010\u0002\u00011\u0002</p>",
+      "slots": [
+        {
+          "k": 0,
+          "i": 0,
+          "p": [
+            0,
+            0
+          ]
+        },
+        {
+          "k": 0,
+          "i": 1,
+          "p": [
+            0,
+            1
+          ]
+        }
+      ]
+    },
+    {
+      "name": "attr-dynamic",
+      "strings": [
+        "<div id=",
+        "></div>"
+      ],
+      "html": "<div id=\u00010\u0002></div>",
+      "slots": [
+        {
+          "k": 1,
+          "i": 0,
+          "n": "id",
+          "p": [
+            0
+          ]
+        }
+      ]
+    },
+    {
+      "name": "attr-interpolated",
+      "strings": [
+        "<div class=\"a ",
+        " b\">x</div>"
+      ],
+      "html": "<div class=\"a \u00010\u0002 b\">x</div>",
+      "slots": [
+        {
+          "k": 2,
+          "n": "class",
+          "parts": [
+            "a ",
+            0,
+            " b"
+          ],
+          "p": [
+            0
+          ]
+        }
+      ]
+    },
+    {
+      "name": "attr-interpolated-2",
+      "strings": [
+        "<div class=\"pre-",
+        "-mid-",
+        "-post\"></div>"
+      ],
+      "html": "<div class=\"pre-\u00010\u0002-mid-\u00011\u0002-post\"></div>",
+      "slots": [
+        {
+          "k": 2,
+          "n": "class",
+          "parts": [
+            "pre-",
+            0,
+            "-mid-",
+            1,
+            "-post"
+          ],
+          "p": [
+            0
+          ]
+        }
+      ]
+    },
+    {
+      "name": "event",
+      "strings": [
+        "<button onclick=",
+        ">go</button>"
+      ],
+      "html": "<button onclick=\u00010\u0002>go</button>",
+      "slots": [
+        {
+          "k": 1,
+          "i": 0,
+          "n": "onclick",
+          "p": [
+            0
+          ]
+        }
+      ]
+    },
+    {
+      "name": "data-attr",
+      "strings": [
+        "<div data-x=",
+        "></div>"
+      ],
+      "html": "<div data-x=\u00010\u0002></div>",
+      "slots": [
+        {
+          "k": 1,
+          "i": 0,
+          "n": "data-x",
+          "p": [
+            0
+          ]
+        }
+      ]
+    },
+    {
+      "name": "nested-deep",
+      "strings": [
+        "<div><section><span><em>",
+        "</em></span></section></div>"
+      ],
+      "html": "<div><section><span><em>\u00010\u0002</em></span></section></div>",
+      "slots": [
+        {
+          "k": 0,
+          "i": 0,
+          "p": [
+            0,
+            0,
+            0,
+            0,
+            0
+          ]
+        }
+      ]
+    },
+    {
+      "name": "multi-root",
+      "strings": [
+        "<i>1</i>",
+        "<i>2</i>"
+      ],
+      "html": "<i>1</i>\u00010\u0002<i>2</i>",
+      "slots": [
+        {
+          "k": 0,
+          "i": 0,
+          "p": [
+            1
+          ]
+        }
+      ]
+    },
+    {
+      "name": "whitespace-text",
+      "strings": [
+        "<p>\n  ",
+        "\n</p>"
+      ],
+      "html": "<p>\n  \u00010\u0002\n</p>",
+      "slots": [
+        {
+          "k": 0,
+          "i": 0,
+          "p": [
+            0,
+            1
+          ]
+        }
+      ]
+    },
+    {
+      "name": "bench-row",
+      "strings": [
+        "<tr><td class=\"col-md-1\">",
+        "</td><td class=\"col-md-4\"><a>",
+        "</a></td><td class=\"col-md-1\"><a><span class=\"glyphicon glyphicon-remove\" aria-hidden=\"true\"></span></a></td><td class=\"col-md-6\"></td></tr>"
+      ],
+      "html": "<tr><td class=\"col-md-1\">\u00010\u0002</td><td class=\"col-md-4\"><a>\u00011\u0002</a></td><td class=\"col-md-1\"><a><span class=\"glyphicon glyphicon-remove\" aria-hidden=\"true\"></span></a></td><td class=\"col-md-6\"></td></tr>",
+      "slots": [
+        {
+          "k": 0,
+          "i": 0,
+          "p": [
+            0,
+            0,
+            0
+          ]
+        },
+        {
+          "k": 0,
+          "i": 1,
+          "p": [
+            0,
+            1,
+            0,
+            0
+          ]
+        }
+      ]
+    },
+    {
+      "name": "list-anchor",
+      "strings": [
+        "<ul><li>a</li><li><em>",
+        "</em></li></ul>"
+      ],
+      "html": "<ul><li>a</li><li><em>\u00010\u0002</em></li></ul>",
+      "slots": [
+        {
+          "k": 0,
+          "i": 0,
+          "p": [
+            0,
+            1,
+            0,
+            0
+          ]
+        }
+      ]
+    },
+    {
+      "name": "nested-template",
+      "strings": [
+        "<template><b>",
+        "</b></template>"
+      ],
+      "html": "<template><b>\u00010\u0002</b></template>",
+      "slots": [
+        {
+          "k": 0,
+          "i": 0,
+          "p": [
+            0,
+            0,
+            0
+          ]
+        }
+      ]
+    },
+    {
+      "name": "input-value",
+      "strings": [
+        "<input value=",
+        ">"
+      ],
+      "html": "<input value=\u00010\u0002>",
+      "slots": [
+        {
+          "k": 1,
+          "i": 0,
+          "n": "value",
+          "p": [
+            0
+          ]
+        }
+      ]
+    }
+  ]
+}

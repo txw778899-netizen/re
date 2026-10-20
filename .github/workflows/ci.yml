@@ -1,0 +1,50 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24
+      - name: Install
+        run: npm install --no-audit --no-fund
+      - name: Build core
+        run: npm run build -w @re/core
+      - name: Build CLI
+        run: npm run build -w create-re
+      - name: Test core
+        run: npm test -w @re/core
+      - name: Test compiler (JS walker parity vs golden fixtures)
+        run: npm test -w @re/compiler
+      - name: Test vite-plugin
+        run: npm test -w @re/vite-plugin
+      - name: Test create-re
+        run: npm test -w create-re
+      - name: Benchmark correctness (Chromium)
+        run: |
+          node bench/build.mjs
+          node bench/harness/verify.mjs
+
+  compiler-zig:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: gotoeasy/setup-zig@v1
+        with:
+          zig-version: 0.13.0
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24
+      - name: Install
+        run: npm install --no-audit --no-fund
+      - name: Zig compiler parity vs golden fixtures
+        run: npm test -w @re/compiler
+      - name: Build zig binary
+        run: cd packages/compiler/zig && zig build-exe re_template.zig -O ReleaseFast

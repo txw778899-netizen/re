@@ -1,0 +1,20 @@
+{
+  "name": "create-re",
+  "version": "0.1.0",
+  "description": "Scaffold a new @re app — zero-dependency interactive CLI. `npm create re@latest`",
+  "license": "MIT",
+  "type": "module",
+  "bin": {
+    "create-re": "./dist/index.js"
+  },
+  "files": [
+    "dist"
+  ],
+  "engines": {
+    "node": ">=20.19"
+  },
+  "scripts": {
+    "build": "esbuild src/index.ts --bundle --platform=node --format=esm --outfile=dist/index.js --banner:js=\"#!/usr/bin/env node\"",
+    "test": "node --test tests/*.test.ts"
+  }
+}

@@ -1,0 +1,16 @@
+{
+  "name": "@re/compiler",
+  "version": "0.1.0",
+  "description": "@re template precompiler — reference walker (JS) + optimizing native compiler (Zig). Compiles tagged-template HTML into template descriptors so the runtime skips parsing entirely.",
+  "license": "MIT",
+  "type": "module",
+  "main": "./src/walker.ts",
+  "types": "./src/walker.ts",
+  "exports": {
+    ".": "./src/walker.ts",
+    "./zig": "./zig/re_template.zig"
+  },
+  "scripts": {
+    "test": "node --test tests/*.test.ts"
+  }
+}

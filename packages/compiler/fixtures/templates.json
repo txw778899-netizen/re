@@ -1,0 +1,21 @@
+{
+  "description": "Golden fixture templates for compiler parity: JS walker / Zig compiler / browser runtime must produce identical slots.",
+  "templates": [
+    { "name": "static-only", "strings": ["<br>"] },
+    { "name": "text-single", "strings": ["<p>Hello ", "</p>"] },
+    { "name": "text-double", "strings": ["<p>", " and ", "</p>"] },
+    { "name": "text-adjacent", "strings": ["<p>", "", "</p>"] },
+    { "name": "attr-dynamic", "strings": ["<div id=", "></div>"] },
+    { "name": "attr-interpolated", "strings": ["<div class=\"a ", " b\">x</div>"] },
+    { "name": "attr-interpolated-2", "strings": ["<div class=\"pre-", "-mid-", "-post\"></div>"] },
+    { "name": "event", "strings": ["<button onclick=", ">go</button>"] },
+    { "name": "data-attr", "strings": ["<div data-x=", "></div>"] },
+    { "name": "nested-deep", "strings": ["<div><section><span><em>", "</em></span></section></div>"] },
+    { "name": "multi-root", "strings": ["<i>1</i>", "<i>2</i>"] },
+    { "name": "whitespace-text", "strings": ["<p>\n  ", "\n</p>"] },
+    { "name": "bench-row", "strings": ["<tr><td class=\"col-md-1\">", "</td><td class=\"col-md-4\"><a>", "</a></td><td class=\"col-md-1\"><a><span class=\"glyphicon glyphicon-remove\" aria-hidden=\"true\"></span></a></td><td class=\"col-md-6\"></td></tr>"] },
+    { "name": "list-anchor", "strings": ["<ul><li>a</li><li><em>", "</em></li></ul>"] },
+    { "name": "nested-template", "strings": ["<template><b>", "</b></template>"] },
+    { "name": "input-value", "strings": ["<input value=", ">"] }
+  ]
+}
