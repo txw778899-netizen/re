@@ -48,19 +48,8 @@ export interface CompiledTemplate {
  * `mounts` are deferred for directives that need the final parent (each()).
  * Both arrays are lazily allocated — static-heavy templates allocate nothing.
  */
-export class ReFragment extends DocumentFragment {
-  root: Node | null = null;
-  disposers: (() => void)[] | null = null;
-  mounts: (() => void)[] | null = null;
-
-  dispose(): void {
-    const d = this.disposers;
-    if (d !== null) {
-      this.disposers = null;
-      for (let i = 0; i < d.length; i++) d[i]!();
-    }
-  }
-}
+export { ReFragment } from './fragment.ts';
+import { ReFragment } from './fragment.ts';
 
 /* ------------------------------------------------------------------ */
 /* compile                                                             */

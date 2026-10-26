@@ -30,8 +30,14 @@ export {
 } from './template.ts';
 export type { Slot, CompiledTemplate } from './template.ts';
 
-export { each, KeyedView } from './each.ts';
-export type { EachDirective, RowEntry } from './each.ts';
+export { each, KeyedView, mountEach, mountList } from './each.ts';
+export type { EachDirective, RowBatchFn } from './each.ts';
+
+export { rowRenderer } from './factory.ts';
+export type { CompiledRowRenderer, RowRendererOptions } from './factory.ts';
+
+export { mountRows } from './rowsview.ts';
+export type { RowsView, RowsFillFn } from './rowsview.ts';
 
 export { defineElement } from './element.ts';
 export type { ElementOptions } from './element.ts';

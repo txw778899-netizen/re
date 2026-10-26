@@ -4,3 +4,7 @@ dist/
 coverage/
 bench/results/
 .DS_Store
+
+# local secrets - never commit
+scripts/.ssh-backup/
+scripts/.npmrc-publish
