@@ -17,7 +17,7 @@ process.chdir(root);
 await build({
   stdin: {
     contents: `
-      import { __compileDebug } from '@re/core';
+      import { __compileDebug } from '@zhenre/core';
       window.__compile = (strings) => __compileDebug(strings);
     `,
     resolveDir: root,
@@ -25,7 +25,7 @@ await build({
   bundle: true,
   format: 'iife',
   outfile: 'packages/compiler/fixtures/.gen.js',
-  alias: { '@re/core': './packages/core/src/index.ts' },
+  alias: { '@zhenre/core': './packages/core/src/index.ts' },
   target: 'chrome120',
   logLevel: 'silent',
 });

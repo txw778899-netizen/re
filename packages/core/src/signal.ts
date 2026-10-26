@@ -1,5 +1,5 @@
 /**
- * @re/core — fine-grained reactivity
+ * @zhenre/core — fine-grained reactivity
  *
  * Design goals:
  *  - Zero dependencies, zero abstractions at runtime: a signal is a plain object

@@ -28,7 +28,7 @@ const baseTsconfig = `{
 `;
 
 const baseViteConfig = `import { defineConfig } from 'vite';
-import re from '@re/vite-plugin';
+import re from '@zhenre/vite-plugin';
 
 export default defineConfig({
   plugins: [re()],
@@ -52,8 +52,8 @@ function pkgJson(name: string): string {
     "preview": "vite preview"
   },
   "dependencies": {
-    "@re/core": "^0.1.0",
-    "@re/vite-plugin": "^0.1.0"
+    "@zhenre/core": "^0.1.0",
+    "@zhenre/vite-plugin": "^0.1.0"
   },
   "devDependencies": {
     "typescript": "^5.6.0",
@@ -91,10 +91,10 @@ npm run dev      # http://localhost:5173
 npm run build
 \`\`\`
 
-技术栈：[@re/core](https://github.com/) — 细粒度信号 + 原生 HTML 模板 + Web Components，零依赖零 VDOM。
+技术栈：[@zhenre/core](https://github.com/) — 细粒度信号 + 原生 HTML 模板 + Web Components，零依赖零 VDOM。
 `;
 
-const minimalMain = `import { html, append, signal, defineElement } from '@re/core';
+const minimalMain = `import { html, append, signal, defineElement } from '@zhenre/core';
 
 // ── 原生 Web Component：组件就是自定义元素 ──────────────────────────
 defineElement('re-counter', (el, root) => {
@@ -110,7 +110,7 @@ defineElement('re-counter', (el, root) => {
 // ── 页面：真实 HTML 模板，无 VDOM ────────────────────────────────
 const app = html\`
   <main style="font-family: system-ui; max-width: 32rem; margin: 4rem auto">
-    <h1>⚡ @re minimal</h1>
+    <h1>⚡ @zhenre minimal</h1>
     <p>组件是原生自定义元素，模板是真实 HTML，状态是细粒度信号。</p>
     <re-counter></re-counter>
   </main>
@@ -119,7 +119,7 @@ const app = html\`
 append(document.getElementById('app')!, app);
 `;
 
-const demoMain = `import { html, append, signal, computed, each, defineElement } from '@re/core';
+const demoMain = `import { html, append, signal, computed, each, defineElement } from '@zhenre/core';
 
 interface Todo {
   id: number;
@@ -129,7 +129,7 @@ interface Todo {
 
 let nextId = 1;
 const todos = signal<Todo[]>([
-  { id: nextId++, text: '了解 @re 的细粒度信号', done: signal(false) },
+  { id: nextId++, text: '了解 @zhenre 的细粒度信号', done: signal(false) },
   { id: nextId++, text: '试试添加/删除待办', done: signal(true) },
 ]);
 const draft = signal('');
@@ -160,7 +160,7 @@ function add(e: Event): void {
 defineElement('todo-app', (_el, root) => {
   root.append(html\`
     <main class="wrap">
-      <h1>⚡ @re todos</h1>
+      <h1>⚡ @zhenre todos</h1>
       <form onsubmit=\${add}>
         <input
           placeholder="想做点什么？回车添加"
@@ -200,7 +200,7 @@ document.head.append(html\`
 
 const demoReadmeExtra = `\n包含：信号、computed、keyed 列表（each）、事件绑定、Web Components。\n`;
 
-const benchMain = `import { html, append, signal, each } from '@re/core';
+const benchMain = `import { html, append, signal, each } from '@zhenre/core';
 
 /**
  * js-framework-benchmark 风格的 keyed 表格：
@@ -277,7 +277,7 @@ const benchIndexHtml = `<!DOCTYPE html>
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>@re keyed table</title>
+    <title>@zhenre keyed table</title>
     <style>
       body { font-family: system-ui, sans-serif; margin: 2rem; color: #1a1d23; }
       .btns { display: flex; flex-wrap: wrap; gap: 0.5rem; margin-bottom: 1rem; }
@@ -290,7 +290,7 @@ const benchIndexHtml = `<!DOCTYPE html>
     </style>
   </head>
   <body>
-    <h1>⚡ @re — keyed table demo</h1>
+    <h1>⚡ @zhenre — keyed table demo</h1>
     <div class="btns">
       <button id="run">创建 1,000 行</button>
       <button id="runlots">创建 10,000 行</button>
@@ -314,11 +314,11 @@ export const TEMPLATES: Record<string, Template> = {
       { path: 'package.json', content: pkgJson('my-re-app') },
       { path: 'vite.config.ts', content: baseViteConfig },
       { path: 'tsconfig.json', content: baseTsconfig },
-      { path: 'index.html', content: indexHtml('@re minimal') },
+      { path: 'index.html', content: indexHtml('@zhenre minimal') },
       { path: 'src/main.ts', content: minimalMain },
       {
         path: 'README.md',
-        content: readme('@re minimal', '最小 @re 应用：信号 + 原生 Web Components。'),
+        content: readme('@zhenre minimal', '最小 @zhenre 应用：信号 + 原生 Web Components。'),
       },
       { path: '.gitignore', content: baseGitignore },
     ],
@@ -329,11 +329,11 @@ export const TEMPLATES: Record<string, Template> = {
       { path: 'package.json', content: pkgJson('my-re-app') },
       { path: 'vite.config.ts', content: baseViteConfig },
       { path: 'tsconfig.json', content: baseTsconfig },
-      { path: 'index.html', content: indexHtml('@re todos') },
+      { path: 'index.html', content: indexHtml('@zhenre todos') },
       { path: 'src/main.ts', content: demoMain },
       {
         path: 'README.md',
-        content: readme('@re todos', '一个 @re 待办应用。' + demoReadmeExtra),
+        content: readme('@zhenre todos', '一个 @zhenre 待办应用。' + demoReadmeExtra),
       },
       { path: '.gitignore', content: baseGitignore },
     ],
@@ -349,7 +349,7 @@ export const TEMPLATES: Record<string, Template> = {
       {
         path: 'README.md',
         content: readme(
-          '@re keyed table',
+          '@zhenre keyed table',
           'js-framework-benchmark 同款的 keyed 表格演示：创建/追加/部分更新/选中/交换/删除/清空。',
         ),
       },

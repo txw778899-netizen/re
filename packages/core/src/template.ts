@@ -1,5 +1,5 @@
 /**
- * @re/core — tagged-template DOM engine
+ * @zhenre/core — tagged-template DOM engine
  *
  * `html` compiles a template literal ONCE per call-site (cached by the template
  * strings identity), then clones pre-built template content per instance and
@@ -8,7 +8,7 @@
  * Marker format: \u0001<index>\u0002 for both text and attribute bindings.
  *
  * The compile step (HTML string -> {content, slots[]}) can be moved to build
- * time by @re/compiler (Zig) + @re/vite-plugin: `__wireTemplate` consumes a
+ * time by @zhenre/compiler (Zig) + @zhenre/vite-plugin: `__wireTemplate` consumes a
  * precomputed slot list and skips parsing/walking entirely. A runtime
  * `registerTemplates` registry is also honored on WeakMap misses.
  */
@@ -420,7 +420,7 @@ export function registerTemplates(key: string, slots: Slot[]): void {
 
 /**
  * Debug/testing export: run the runtime compiler on a template and return the
- * joined HTML string + slots. Used by @re/compiler parity fixtures.
+ * joined HTML string + slots. Used by @zhenre/compiler parity fixtures.
  */
 export function __compileDebug(strings: readonly string[]): {
   html: string;

@@ -1,6 +1,6 @@
-# @re 架构决策记录（ADR）
+# @zhenre 架构决策记录（ADR）
 
-本文记录 @re 的关键技术决策、备选方案与取舍理由。
+本文记录 @zhenre 的关键技术决策、备选方案与取舍理由。
 
 ## ADR-001 运行时路线 + Web Components 组件模型
 
@@ -8,10 +8,10 @@
 
 **备选**：
 - 编译器路线（Solid/Svelte 式）：性能上限相同，但引入学习门槛与工具链耦合；
-- VDOM 路线（Vue/React 式）：update/select 类操作天然多一次 diff + 调度，实测中该类操作正是 @re 与 vanilla 完全持平、而头部 VDOM 框架落后 20%–300% 的原因。
+- VDOM 路线（Vue/React 式）：update/select 类操作天然多一次 diff + 调度，实测中该类操作正是 @zhenre 与 vanilla 完全持平、而头部 VDOM 框架落后 20%–300% 的原因。
 
 **理由**：
-1. 「无学习门槛」是明确需求——会写 HTML 就会写 @re 模板，会写自定义元素就写 @re 组件；
+1. 「无学习门槛」是明确需求——会写 HTML 就会写 @zhenre 模板，会写自定义元素就写 @zhenre 组件；
 2. 细粒度信号 + 直接 DOM 更新在 benchmark 的 update/select/swap 操作上可达 vanilla 水平（实测 1.000–1.003x），这是 VDOM 架构无法达到的；
 3. 运行时模板编译缓存（按调用点一次）成本仅在首帧，且可被预编译器完全消除（ADR-004）。
 
@@ -45,7 +45,7 @@
 
 **决策**：模板编译产出「槽位描述符」（`{html, slots[]}`），支持三级获取：
 1. 运行时编译（默认）：`template.innerHTML` + TreeWalker，按调用点缓存；
-2. 构建期 JS 预编译：`@re/vite-plugin` 用 acorn 找到 `html\`\`` 调用，`@re/compiler`（parse5，与浏览器同规范）产出描述符，运行时 `__wireTemplate` 直接消费；
+2. 构建期 JS 预编译：`@zhenre/vite-plugin` 用 acorn 找到 `html\`\`` 调用，`@zhenre/compiler`（parse5，与浏览器同规范）产出描述符，运行时 `__wireTemplate` 直接消费；
 3. 构建期 Zig 原生编译：`zig/re_template.zig`，供追求极致构建速度的链路使用。
 
 **一致性工程**：`fixtures/expected.json` 是**从真实 Chromium 生成的黄金标准**（运行时编译器 = 真值），JS 参考实现与 Zig 实现都必须与之逐槽位一致（parity 测试）。没有 DOM 的构建环境因此不可能产出与浏览器不一致的描述符——这是「稳健」的关键保障。

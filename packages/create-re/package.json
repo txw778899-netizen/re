@@ -1,7 +1,7 @@
 {
   "name": "create-re",
   "version": "0.1.0",
-  "description": "Scaffold a new @re app — zero-dependency interactive CLI. `npm create re@latest`",
+  "description": "Scaffold a new @zhenre app — zero-dependency interactive CLI. `npm create re@latest`",
   "license": "MIT",
   "type": "module",
   "bin": {

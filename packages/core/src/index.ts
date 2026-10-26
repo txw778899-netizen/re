@@ -1,5 +1,5 @@
 /**
- * @re — the minimal, fastest frontend framework.
+ * @zhenre — the minimal, fastest frontend framework.
  *
  * Native-level experience, zero learning curve:
  *   - templates are real HTML (tagged templates, compiled once, cloned fast)

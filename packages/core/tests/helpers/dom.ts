@@ -1,5 +1,5 @@
 /**
- * Test helper: registers a happy-dom Window as the global realm for @re/core.
+ * Test helper: registers a happy-dom Window as the global realm for @zhenre/core.
  * happy-dom is a devDependency only — the runtime itself has zero deps.
  */
 import { Window } from 'happy-dom';

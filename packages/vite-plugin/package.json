@@ -1,7 +1,7 @@
 {
-  "name": "@re/vite-plugin",
+  "name": "@zhenre/vite-plugin",
   "version": "0.1.0",
-  "description": "Vite integration for @re — build-time template precompilation via @re/compiler (native Zig binary when available, JS reference otherwise).",
+  "description": "Vite integration for @zhenre — build-time template precompilation via @zhenre/compiler (native Zig binary when available, JS reference otherwise).",
   "license": "MIT",
   "type": "module",
   "main": "./src/index.ts",
@@ -13,7 +13,7 @@
     "vite": "^5.0.0 || ^6.0.0 || ^7.0.0"
   },
   "dependencies": {
-    "@re/compiler": "0.1.0"
+    "@zhenre/compiler": "0.1.0"
   },
   "scripts": {
     "test": "node --test tests/*.test.ts"

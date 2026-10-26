@@ -1,11 +1,11 @@
-//! @re/compiler — native template precompiler (Zig)
+//! @zhenre/compiler — native template precompiler (Zig)
 //!
 //! Reads JSON from stdin:
 //!   { "templates": [ { "name": "...", "strings": ["...", ...] } ] }
 //! Writes JSON to stdout:
 //!   { "templates": [ { "name": "...", "html": "...", "slots": [ ... ] } ] }
 //!
-//! Slots are byte-compatible with the @re runtime compiler and the JS
+//! Slots are byte-compatible with the @zhenre runtime compiler and the JS
 //! reference walker (packages/compiler/src/walker.ts) — enforced by the
 //! fixture parity suite (fixtures/expected.json is generated from a real
 //! browser). Build: zig build-exe re_template.zig -O ReleaseFast

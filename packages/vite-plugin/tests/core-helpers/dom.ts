@@ -1,4 +1,4 @@
-/** Registers a happy-dom realm for tests that exercise @re/core + the plugin. */
+/** Registers a happy-dom realm for tests that exercise @zhenre/core + the plugin. */
 import { Window } from 'happy-dom';
 
 export function setupCoreDom(): Window {

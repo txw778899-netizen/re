@@ -1,5 +1,5 @@
 /**
- * @re/core — native Web Components integration
+ * @zhenre/core — native Web Components integration
  *
  * Components ARE custom elements: zero new component model to learn, native
  * lifecycle, native DOM semantics, works with every HTML host environment.

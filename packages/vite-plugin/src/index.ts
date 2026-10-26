@@ -1,21 +1,21 @@
 /**
- * @re/vite-plugin — build-time template precompilation for @re
+ * @zhenre/vite-plugin — build-time template precompilation for @zhenre
  *
  * Transforms every `html\`...\`` tagged template into a precompiled template
- * (slots computed at build time by @re/compiler), so the runtime skips HTML
+ * (slots computed at build time by @zhenre/compiler), so the runtime skips HTML
  * parsing + tree walking entirely. Behavior is byte-identical (parity suite
- * in @re/compiler); the transform only removes cold-start work.
+ * in @zhenre/compiler); the transform only removes cold-start work.
  *
  * Usage:
  *   // vite.config.ts
  *   import { defineConfig } from 'vite';
- *   import re from '@re/vite-plugin';
+ *   import re from '@zhenre/vite-plugin';
  *   export default defineConfig({ plugins: [re()] });
  */
 
 import { parse } from 'acorn';
 import MagicString from 'magic-string';
-import { compileTemplate } from '@re/compiler';
+import { compileTemplate } from '@zhenre/compiler';
 
 export interface RePluginOptions {
   /** Tag function names to precompile (default: ['html']). */
@@ -132,7 +132,7 @@ export default function rePlugin(opts: RePluginOptions = {}): {
         idx++;
       }
       if (idx === 0) return null;
-      s.prepend(`import { __wireTemplate as __re_wire } from '@re/core';\n`);
+      s.prepend(`import { __wireTemplate as __re_wire } from '@zhenre/core';\n`);
       s.append(`\n${wires.join('\n')}\n`);
       return {
         code: s.toString(),

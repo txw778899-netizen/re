@@ -1,7 +1,7 @@
 {
-  "name": "@re/core",
+  "name": "@zhenre/core",
   "version": "0.1.0",
-  "description": "@re core — fine-grained signals, tagged-template DOM engine, anchored keyed lists, native Web Components. Zero dependencies, ~4KB.",
+  "description": "@zhenre core — fine-grained signals, tagged-template DOM engine, anchored keyed lists, native Web Components. Zero dependencies, ~4KB.",
   "license": "MIT",
   "type": "module",
   "main": "./dist/re.js",

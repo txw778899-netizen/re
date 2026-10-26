@@ -1,6 +1,6 @@
 // Phase-level micro bench: buildData vs sync vs paint for 10k rows.
-import { signal, html, append, each } from '@re/core';
-import type { Signal } from '@re/core';
+import { signal, html, append, each } from '@zhenre/core';
+import type { Signal } from '@zhenre/core';
 
 function _random(max: number): number {
   return Math.round(Math.random() * 1000) % max;

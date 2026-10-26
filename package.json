@@ -3,7 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "type": "module",
-  "description": "@re — minimal, fastest, most robust frontend framework with native-level DX (Web Components + fine-grained signals + tagged templates) and a Zig-powered template precompiler.",
+  "description": "@zhenre — minimal, fastest, most robust frontend framework with native-level DX (Web Components + fine-grained signals + tagged templates) and a Zig-powered template precompiler.",
   "license": "MIT",
   "workspaces": [
     "packages/*"

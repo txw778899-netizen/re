@@ -1,4 +1,4 @@
-# ⚡ @re — 最小、最快、最稳健、开发体验最好的前端框架
+# ⚡ @zhenre — 最小、最快、最稳健、开发体验最好的前端框架
 
 > 原生级别的体验，零学习门槛：**模板是真实 HTML，组件是原生 Web Components，状态是细粒度信号。**
 > 零依赖、零 VDOM、零 diff。核心 gzip 后 **≈3.9 KB**。
@@ -12,7 +12,7 @@
 | 与 vanilla 完全持平 | partial update **1.000** / select **1.003** / swap **1.002** |
 | 内存（ready / repeat-clear） | **1.01x** / **1.10x** |
 
-对比公开榜单（Chrome 154 时代头部框架相对 vanilla 的系数：solid ≈ 1.04–1.37、svelte ≈ 1.07–2.04、vue-vapor ≈ 1.06–1.08），@re 在 update/select/swap/create10k/append 等操作上达到或超越现有第一梯队，且多项直接击败 vanilla 手写基线。
+对比公开榜单（Chrome 154 时代头部框架相对 vanilla 的系数：solid ≈ 1.04–1.37、svelte ≈ 1.07–2.04、vue-vapor ≈ 1.06–1.08），@zhenre 在 update/select/swap/create10k/append 等操作上达到或超越现有第一梯队，且多项直接击败 vanilla 手写基线。
 
 ---
 
@@ -26,7 +26,7 @@ cd my-app && npm install && npm run dev
 ### 30 秒看懂
 
 ```ts
-import { html, append, signal, defineElement } from '@re/core';
+import { html, append, signal, defineElement } from '@zhenre/core';
 
 // 组件 = 原生自定义元素（无新组件模型、无学习成本）
 defineElement('re-counter', (el, root) => {
@@ -48,9 +48,9 @@ append(document.getElementById('app')!, html`<re-counter></re-counter>`);
 
 | 包 | 说明 |
 | --- | --- |
-| [`@re/core`](packages/core/) | 运行时：signals + html 模板引擎 + keyed each + defineElement |
-| [`@re/compiler`](packages/compiler/) | 模板预编译器：JS 参考实现（parse5）+ **Zig 原生编译器** + 浏览器黄金 fixture 一致性测试 |
-| [`@re/vite-plugin`](packages/vite-plugin/) | Vite 构建集成：构建期预编译 `html\`\``，运行时跳过解析 |
+| [`@zhenre/core`](packages/core/) | 运行时：signals + html 模板引擎 + keyed each + defineElement |
+| [`@zhenre/compiler`](packages/compiler/) | 模板预编译器：JS 参考实现（parse5）+ **Zig 原生编译器** + 浏览器黄金 fixture 一致性测试 |
+| [`@zhenre/vite-plugin`](packages/vite-plugin/) | Vite 构建集成：构建期预编译 `html\`\``，运行时跳过解析 |
 | [`create-re`](packages/create-re/) | 脚手架 CLI：`npm create re`（minimal / demo / bench 三套模板，零依赖） |
 | `bench/` | js-framework-benchmark 合规实现 + vanilla 官方基线 + 完整实测 harness |
 

@@ -21,9 +21,9 @@ test('create-re scaffolds the demo template non-interactively', () => {
       assert.ok(existsSync(join(app, f)), `missing ${f}`);
     }
     const pkg = JSON.parse(readFileSync(join(app, 'package.json'), 'utf8'));
-    assert.equal(pkg.dependencies['@re/core'], '^0.1.0');
+    assert.equal(pkg.dependencies['@zhenre/core'], '^0.1.0');
     const main = readFileSync(join(app, 'src', 'main.ts'), 'utf8');
-    assert.match(main, /@re\/core/);
+    assert.match(main, /@zhenre\/core/);
     assert.match(main, /each\(/);
   } finally {
     rmSync(dir, { recursive: true, force: true });
@@ -48,5 +48,5 @@ test('create-re rejects unknown templates', () => {
 
 test('create-re --help exits cleanly', () => {
   const out = execFileSync(process.execPath, [cli, '--help'], { stdio: 'pipe' }).toString();
-  assert.match(out, /scaffold a new @re app/);
+  assert.match(out, /scaffold a new @zhenre app/);
 });

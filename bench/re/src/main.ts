@@ -1,14 +1,14 @@
 /**
- * @re — official js-framework-benchmark implementation (keyed)
+ * @zhenre — official js-framework-benchmark implementation (keyed)
  *
- * Uses only public @re/core API:
+ * Uses only public @zhenre/core API:
  *   - one signal per row label (fine-grained: partial update touches 100 text nodes)
  *   - one anchored keyed view for the tbody (fast paths: append / clear / replace)
  *   - O(1) direct ops for selection highlight, swap and removal
  *   - event delegation on tbody (2 listeners total, same as the reference)
  */
-import { signal, html, append, each } from '@re/core';
-import type { Signal } from '@re/core';
+import { signal, html, append, each } from '@zhenre/core';
+import type { Signal } from '@zhenre/core';
 
 interface Row {
   id: number;

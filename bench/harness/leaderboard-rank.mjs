@@ -1,11 +1,11 @@
 /**
- * 把 @re 的官方 runner 实测系数放进公开榜单排位。
+ * 把 @zhenre 的官方 runner 实测系数放进公开榜单排位。
  *
  * 口径说明（关键）：
  * - 因子 = 框架中位数 / **同一数据来源**的 vanillajs-keyed 中位数。
  * - 公开榜单：js-framework-benchmark/webdriver-ts/results.json（krausest 硬件），
  *   因子除以该数据集内的 vanillajs-keyed —— 忠实复现官方表格口径。
- * - @re / solid：scripts/jsfb_raw 本沙箱同会话配对原始数据，
+ * - @zhenre / solid：scripts/jsfb_raw 本沙箱同会话配对原始数据，
  *   因子除以**本会话**的 vanillajs-keyed（同会话消除硬件与负载漂移）。
  * - 绝对毫秒跨硬件不可比；相对因子跨机器可比（有 paint/script 比例差异的固有误差）。
  */
@@ -59,7 +59,7 @@ for (const [fw, m] of table) {
 }
 pubRank.sort((a, b) => a.gm - b.gm);
 
-/* ---- 2. 本会话配对：@re 与 solid 的因子（除以本会话 vanilla） ---- */
+/* ---- 2. 本会话配对：@zhenre 与 solid 的因子（除以本会话 vanilla） ---- */
 const ours = { vanillajs: new Map(), re: new Map(), solid: new Map() };
 for (const f of readdirSync(RAW)) {
   let key;
@@ -78,12 +78,12 @@ const reGm = geomean(reFactor);
 const solidGm = geomean(solidFactor);
 
 console.log(`公开榜单 9 项数据齐全框架: ${pubRank.length}（keyed ${pubRank.filter((r) => r.keyed).length}）`);
-console.log(`本会话配对: @re geomean=${reGm.toFixed(4)}  solid=${solidGm.toFixed(4)}  vanilla=1.0000\n`);
+console.log(`本会话配对: @zhenre geomean=${reGm.toFixed(4)}  solid=${solidGm.toFixed(4)}  vanilla=1.0000\n`);
 
 /* ---- 3. 全榜插入排位 ---- */
-const all = [...pubRank, { fw: '@re ★本次实测', f: reFactor, gm: reGm, keyed: true, ours: true }, { fw: 'solid ★本次实测', f: solidFactor, gm: solidGm, keyed: true, ours: true }].sort((a, b) => a.gm - b.gm);
-const idx = all.findIndex((r) => r.fw.startsWith('@re'));
-console.log(`=== 全榜排位: @re 第 ${idx + 1} / ${all.length} ===`);
+const all = [...pubRank, { fw: '@zhenre ★本次实测', f: reFactor, gm: reGm, keyed: true, ours: true }, { fw: 'solid ★本次实测', f: solidFactor, gm: solidGm, keyed: true, ours: true }].sort((a, b) => a.gm - b.gm);
+const idx = all.findIndex((r) => r.fw.startsWith('@zhenre'));
+console.log(`=== 全榜排位: @zhenre 第 ${idx + 1} / ${all.length} ===`);
 for (let i = Math.max(0, idx - 4); i <= Math.min(all.length - 1, idx + 2); i++) {
   const mark = all[i].ours ? '  <-- 本会话实测' : '';
   console.log(`${String(i + 1).padStart(3)}  ${all[i].gm.toFixed(4)}  ${all[i].fw}${mark}`);
@@ -91,16 +91,16 @@ for (let i = Math.max(0, idx - 4); i <= Math.min(all.length - 1, idx + 2); i++) 
 
 /* ---- 4. keyed 榜单独排位 ---- */
 const keyedAll = all.filter((r) => r.keyed);
-const kidx = keyedAll.findIndex((r) => r.fw.startsWith('@re'));
-console.log(`\n=== keyed 榜排位: @re 第 ${kidx + 1} / ${keyedAll.length} ===`);
+const kidx = keyedAll.findIndex((r) => r.fw.startsWith('@zhenre'));
+console.log(`\n=== keyed 榜排位: @zhenre 第 ${kidx + 1} / ${keyedAll.length} ===`);
 for (let i = 0; i < Math.min(8, keyedAll.length); i++) {
   const mark = keyedAll[i].ours ? '  <-- 本会话实测' : '';
   console.log(`${String(i + 1).padStart(3)}  ${keyedAll[i].gm.toFixed(4)}  ${keyedAll[i].fw}${mark}`);
 }
 
-/* ---- 5. 逐项: @re vs 全榜最佳 / keyed 榜最佳 ---- */
-console.log('\n=== @re 逐项 factor 与榜单最佳对照 ===');
-console.log('bench       @re      全榜最佳  归属(截断)                        keyed最佳  归属');
+/* ---- 5. 逐项: @zhenre vs 全榜最佳 / keyed 榜最佳 ---- */
+console.log('\n=== @zhenre 逐项 factor 与榜单最佳对照 ===');
+console.log('bench       @zhenre      全榜最佳  归属(截断)                        keyed最佳  归属');
 for (const b of CPU) {
   const s = pubRank.map((r) => ({ fw: r.fw, v: r.f[b] })).sort((x, y) => x.v - y.v);
   const sk = s.filter((x) => x.fw.endsWith('-keyed') && !x.fw.includes('non-keyed'));
@@ -125,4 +125,4 @@ for (const fw of known) {
   const rank = pubRank.indexOf(r) + 1;
   console.log(`${String(rank).padStart(4)}/${pubRank.length}  ${r.gm.toFixed(4)}  ${fw}`);
 }
-console.log(`  (@re 本会话: ${reGm.toFixed(4)};  solid 本会话: ${solidGm.toFixed(4)})`);
+console.log(`  (@zhenre 本会话: ${reGm.toFixed(4)};  solid 本会话: ${solidGm.toFixed(4)})`);

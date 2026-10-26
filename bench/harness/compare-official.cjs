@@ -55,7 +55,7 @@ for (const [op, label] of OPS) {
   vanBefore[op] = load(B, 'vanillajs', op);
   row('va ' + label, vanBefore[op], vanAfter[op]);
 }
-console.log('op            total  script |  total  script   (@re)');
+console.log('op            total  script |  total  script   (@zhenre)');
 const reAfter = {};
 const reBefore = {};
 for (const [op, label] of OPS) {
@@ -64,7 +64,7 @@ for (const [op, label] of OPS) {
   row('re ' + label, reBefore[op], reAfter[op]);
 }
 
-console.log('\n=== FACTOR @re/vanilla (median-total) — before -> after ===');
+console.log('\n=== FACTOR @zhenre/vanilla (median-total) — before -> after ===');
 const fBefore = [];
 const fAfter = [];
 for (const [op, label] of OPS) {
@@ -84,7 +84,7 @@ if (fBefore.length === fAfter.length && fBefore.length > 0) {
   console.log('GEOMEAN:', geo(fBefore).toFixed(4), '->', geo(fAfter).toFixed(4));
 }
 
-console.log('\n=== SCRIPT-ONLY FACTOR @re/vanilla (median-script) — before -> after ===');
+console.log('\n=== SCRIPT-ONLY FACTOR @zhenre/vanilla (median-script) — before -> after ===');
 const sAfter = [];
 for (const [op, label] of OPS) {
   const sb = reBefore[op] && vanBefore[op] && reBefore[op].scriptMed && vanBefore[op].scriptMed

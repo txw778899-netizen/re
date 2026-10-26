@@ -1,4 +1,4 @@
-# @re/core
+# @zhenre/core
 
 细粒度信号 + 真实 HTML 模板 + 锚点式 keyed 列表 + 原生 Web Components。
 零依赖，gzip ≈ 3.9KB。TypeScript strict，可擦除语法（node 原生可跑）。
@@ -15,7 +15,7 @@ import {
   each,
   // 组件
   defineElement,
-} from '@re/core';
+} from '@zhenre/core';
 ```
 
 ### signal

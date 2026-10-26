@@ -1,5 +1,5 @@
 /**
- * Full local benchmark runner — measures @re vs the official vanilla baseline
+ * Full local benchmark runner — measures @zhenre vs the official vanilla baseline
  * on the same machine/browser with the official operation set.
  *
  * Methodology (mirrors js-framework-benchmark's webdriver-ts):

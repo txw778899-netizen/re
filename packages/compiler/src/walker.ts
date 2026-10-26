@@ -1,8 +1,8 @@
 /**
- * @re/compiler — reference template walker (JavaScript)
+ * @zhenre/compiler — reference template walker (JavaScript)
  *
  * Compiles a tagged-template's cooked strings into the slot descriptor the
- * @re runtime consumes, WITHOUT a DOM: parse5 (spec-compliant HTML parser,
+ * @zhenre runtime consumes, WITHOUT a DOM: parse5 (spec-compliant HTML parser,
  * template fragment context) mirrors what every browser does with
  * `<template>` content, so output is byte-compatible with the runtime
  * compiler (enforced by fixture parity tests).
@@ -33,7 +33,7 @@ export interface CompileResult {
 const MARKER_RE = /\u0001(\d+)\u0002/g;
 const MARKER_FULL_RE = /^\u0001(\d+)\u0002$/;
 
-/** Join cooked strings with markers — must match @re/core template.ts exactly. */
+/** Join cooked strings with markers — must match @zhenre/core template.ts exactly. */
 export function joinHtml(strings: readonly string[]): string {
   let out = strings[0] ?? '';
   for (let i = 1; i < strings.length; i++) {

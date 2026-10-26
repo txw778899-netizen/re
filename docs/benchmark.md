@@ -2,7 +2,7 @@
 
 ## 测的是什么
 
-对齐 [js-framework-benchmark](https://github.com/krausest/js-framework-benchmark) 的 9 项 CPU 操作与 5 项内存指标，@re 实现页与官方 `keyed/vanillajs` 参考实现**逐字保留**后同机对比：
+对齐 [js-framework-benchmark](https://github.com/krausest/js-framework-benchmark) 的 9 项 CPU 操作与 5 项内存指标，@zhenre 实现页与官方 `keyed/vanillajs` 参考实现**逐字保留**后同机对比：
 
 | # | 操作 | 官方语义 |
 | --- | --- | --- |
@@ -23,7 +23,7 @@
 
 ```
 bench/
-├── re/           # @re 合规实现（index.html + src/main.ts，esbuild 打包）
+├── re/           # @zhenre 合规实现（index.html + src/main.ts，esbuild 打包）
 ├── vanilla/      # 官方 keyed/vanillajs 参考实现（逐字保留）
 ├── css/          # 官方 bootstrap + main.css
 ├── server.mjs    # 零依赖静态服务器（:8080）
@@ -39,7 +39,7 @@ bench/
 
 ```bash
 npm install
-node bench/build.mjs          # 打包 @re 实现页
+node bench/build.mjs          # 打包 @zhenre 实现页
 node bench/harness/verify.mjs # 38/38 行为校验（两实现各跑一遍）
 node bench/harness/run.mjs    # 完整实测（ROUNDS=2 轮次交替）
 node bench/harness/stats.mjs  # 输出对比表 + bench/results/summary.json
@@ -48,7 +48,7 @@ node bench/harness/stats.mjs  # 输出对比表 + bench/results/summary.json
 > 建议在你的目标机器上跑 3 轮取中位。沙箱/共享 CPU 的轮间波动可达 ±10%，
 > 但 A/B 同轮对比（factor 列）是稳定的。
 
-## @re 实现页的关键手法（全部为公开 API）
+## @zhenre 实现页的关键手法（全部为公开 API）
 
 - **每行一个 label 信号**：partial update 只触碰 100 个文本节点，零列表 diff；
 - **锚点 keyed 视图**：`each(rows, r => r.id, rowTpl)`；

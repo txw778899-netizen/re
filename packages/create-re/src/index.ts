@@ -1,5 +1,5 @@
 /**
- * create-re — scaffold a new @re app. Zero dependencies.
+ * create-re — scaffold a new @zhenre app. Zero dependencies.
  *
  *   npm create re@latest my-app
  *   create-re my-app --template demo --pm pnpm
@@ -24,7 +24,7 @@ const { values, positionals } = parseArgs({
 });
 
 function printHelp(): void {
-  console.log(`create-re — scaffold a new @re app
+  console.log(`create-re — scaffold a new @zhenre app
 
 Usage:
   npm create re@latest [name] [options]
@@ -50,7 +50,7 @@ async function main(): Promise<void> {
     return;
   }
 
-  console.log('\n  ⚡ create-re — scaffold a new @re app\n');
+  console.log('\n  ⚡ create-re — scaffold a new @zhenre app\n');
 
   let name = positionals[0] ?? '';
   let template = values.template ?? '';

@@ -1,12 +1,12 @@
 /**
- * @re/vite-plugin smoke test: transforms a source snippet, evaluates it in a
+ * @zhenre/vite-plugin smoke test: transforms a source snippet, evaluates it in a
  * real DOM, and asserts behavior is identical to the untransformed path.
  */
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
 import { setupCoreDom } from './core-helpers/dom.ts';
 
-// DOM must exist before @re/core evaluates (ReFragment extends DocumentFragment).
+// DOM must exist before @zhenre/core evaluates (ReFragment extends DocumentFragment).
 setupCoreDom();
 const plugin = (await import('../src/index.ts')).default;
 const core = await import('../../core/src/index.ts');
@@ -14,7 +14,7 @@ const core = await import('../../core/src/index.ts');
 test('plugin transforms html`` into precompiled wires (code-level)', () => {
   const p = plugin();
   const code = [
-    "import { html, signal } from '@re/core';",
+    "import { html, signal } from '@zhenre/core';",
     "const cls = signal('a');",
     "const name = signal('b');",
     'const t = html`<p class=${cls}>hi ${name}</p>`;',
@@ -40,7 +40,7 @@ test('transformed template behaves identically in a real DOM', async () => {
   setupCoreDom();
   const p = plugin();
   const code = [
-    "import { html, signal } from '@re/core';",
+    "import { html, signal } from '@zhenre/core';",
     "const name = signal('ada');",
     'const make = () => html`<p class="who">hi ${name}</p>`;',
     'export { make, name };',
@@ -50,8 +50,8 @@ test('transformed template behaves identically in a real DOM', async () => {
 
   // evaluate transformed module body inside this DOM context
   const body = out.code
-    .replace("import { __wireTemplate as __re_wire } from '@re/core';", '')
-    .replace("import { html, signal } from '@re/core';", '')
+    .replace("import { __wireTemplate as __re_wire } from '@zhenre/core';", '')
+    .replace("import { html, signal } from '@zhenre/core';", '')
     .replace(/export\s*\{[^}]*\};?/g, '');
   const mod = new Function(
     '__re_wire, html, signal',

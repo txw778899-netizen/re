@@ -1,4 +1,4 @@
-// Build the @re benchmark page bundle (IIFE, minified — mirrors build-prod).
+// Build the @zhenre benchmark page bundle (IIFE, minified — mirrors build-prod).
 import { build } from 'esbuild';
 
 await build({
@@ -7,7 +7,7 @@ await build({
   minify: true,
   format: 'iife',
   outfile: 'bench/re/main.js',
-  alias: { '@re/core': './packages/core/src/index.ts' },
+  alias: { '@zhenre/core': './packages/core/src/index.ts' },
   target: 'chrome120',
   logLevel: 'info',
 });

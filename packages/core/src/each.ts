@@ -1,5 +1,5 @@
 /**
- * @re/core — anchored keyed list engine
+ * @zhenre/core — anchored keyed list engine
  *
  * `each(list, key, render)` renders a keyed list anchored at a marker node.
  * All operations are performed with direct DOM primitives:
