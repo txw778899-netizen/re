@@ -50,16 +50,28 @@ append(document.getElementById('app')!, html`<re-counter></re-counter>`);
 
 | Package | Description |
 | --- | --- |
-| [`@zhenre/core`](packages/core/) | Runtime: signals + `html` template engine + keyed each + defineElement |
+| [`@zhenre/core`](packages/core/) | Runtime: signals + `html` template engine + keyed each + defineElement + cleanup contexts |
+| [`@zhenre/utils`](packages/utils/) | `delay` `debounce` `throttle` `dblock` `rafThrottle` `once` `memoize` `uid` `clamp` |
+| [`@zhenre/animation`](packages/animation/) | CSS-driven transitions (Vue-compatible classes), FLIP reorder, stagger orchestration |
+| [`@zhenre/store`](packages/store/) | `defineStore` global singletons + `useStore` component-scoped stores with automatic teardown |
+| [`@zhenre/router`](packages/router/) | Reactive route signal, params, async guards, redirects, animation-ready outlet |
+| [`@zhenre/request`](packages/request/) | Axios-shaped fetch client: defaults, interceptors, timeout, typed errors |
+| [`@zhenre/message`](packages/message/) | Typed postMessage protocol: pub/sub + request/reply across Window/Worker/Port |
+| [`@zhenre/form`](packages/form/) | Signal two-way binding, touched/dirty protocol, sync+async validation |
 | [`@zhenre/compiler`](packages/compiler/) | Template precompiler: JS reference implementation (parse5) + **native Zig compiler** + golden-fixture consistency tests against the browser |
 | [`@zhenre/vite-plugin`](packages/vite-plugin/) | Vite integration: precompiles `html\`\`` at build time so the runtime skips parsing |
 | [`create-re`](packages/create-re/) | Scaffolding CLI: `npm create re` (minimal / demo / bench templates, zero dependencies) |
 | `bench/` | js-framework-benchmark-compliant implementation + the official vanilla baseline + full measurement harness |
 
+Every ecosystem package: zero dependencies, tree-shakeable ESM, its own test
+suite; sizes (min+gzip): utils 0.71KB · animation 0.92KB · store 0.27KB ·
+router 1.37KB · request 1.37KB · message 0.94KB · form 1.14KB — **6.73KB total**.
+Ecosystem design contracts: [`docs/roadmap.md`](docs/roadmap.md).
+
 ## Engineering standards
 
 - **TypeScript strict, fully typed** (`noUncheckedIndexedAccess`, `verbatimModuleSyntax`); sources use erasable syntax only, tests run natively on Node
-- **Testing**: `node --test` (zero test-framework dependencies); 58 assertions across signals / templates / lists / components / compiler consistency / plugin / CLI, plus 10 official-semantics smoke checks against the built bundle
+- **Testing**: `node --test` (zero test-framework dependencies); 136 assertions across signals / templates / lists / lifecycle / components / compiler consistency / plugin / CLI / animation / store / router / request / message / form, plus smoke checks against built bundles
 - **Performance methodology**: same-machine, same-round paired A/B against the official vanilla baseline; 5 warm-up + 20 measured rounds; double-rAF timing including render; memory sampled after forced GC via CDP — see [`docs/benchmark.md`](docs/benchmark.md)
 - **CI**: `.github/workflows/ci.yml` — lint-free build + full test suite + compiler consistency verification when Zig is available
 

@@ -1,0 +1,24 @@
+{
+  "name": "@zhenre/message",
+  "version": "0.1.0",
+  "description": "@zhenre message — typed postMessage protocol: pub/sub, request/reply with ids and timeouts, origin allowlisting. Works across Window, Worker and MessagePort. Zero dependencies.",
+  "license": "MIT",
+  "type": "module",
+  "main": "./dist/message.js",
+  "module": "./dist/message.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/message.js"
+    }
+  },
+  "files": [
+    "dist"
+  ],
+  "sideEffects": false,
+  "scripts": {
+    "build": "esbuild src/index.ts --bundle --format=esm --outfile=dist/message.js && esbuild src/index.ts --bundle --format=esm --minify --outfile=dist/message.min.js && tsc -p tsconfig.build.json",
+    "test": "node --test tests/*.test.ts"
+  }
+}

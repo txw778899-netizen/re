@@ -1,0 +1,24 @@
+{
+  "name": "@zhenre/utils",
+  "version": "0.1.0",
+  "description": "@zhenre utils — delay, debounce, throttle, dblock (re-entry lock), rafThrottle, once, memoize, uid, clamp. Zero dependencies.",
+  "license": "MIT",
+  "type": "module",
+  "main": "./dist/utils.js",
+  "module": "./dist/utils.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/utils.js"
+    }
+  },
+  "files": [
+    "dist"
+  ],
+  "sideEffects": false,
+  "scripts": {
+    "build": "esbuild src/index.ts --bundle --format=esm --outfile=dist/utils.js && esbuild src/index.ts --bundle --format=esm --minify --outfile=dist/utils.min.js && tsc -p tsconfig.build.json",
+    "test": "node --test tests/*.test.ts"
+  }
+}

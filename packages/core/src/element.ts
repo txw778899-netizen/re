@@ -6,6 +6,8 @@
  * Light DOM by default (global CSS just works); opt-in shadow via `{ shadow: true }`.
  */
 
+import { popScope, pushScope, runCleanups } from './lifecycle.ts';
+
 export interface ElementOptions {
   /** Attach a shadow root and render into it (default: light DOM). */
   shadow?: boolean;
@@ -34,7 +36,7 @@ export function defineElement(
   if (customElements.get(tag) !== undefined) return;
 
   class ReElement extends HTMLElement {
-    #cleanup: (() => void) | null = null;
+    #cleanups: (() => void)[] | null = null;
     #connected = false;
 
     connectedCallback(): void {
@@ -42,16 +44,29 @@ export function defineElement(
       this.#connected = true;
       const root =
         opts?.shadow === true ? this.attachShadow({ mode: 'open' }) : this;
-      const cleanup = setup(this, root);
-      if (typeof cleanup === 'function') this.#cleanup = cleanup;
+      // setup body runs inside a cleanup context: onCleanup() calls there join
+      // the returned cleanup fn on the same list, run on disconnect.
+      const frame = pushScope();
+      let result: void | (() => void);
+      let bag: (() => void)[] | null = null;
+      try {
+        result = setup(this, root);
+      } finally {
+        bag = popScope(frame);
+      }
+      if (typeof result === 'function') {
+        if (bag === null) bag = [result];
+        else bag.push(result);
+      }
+      this.#cleanups = bag;
     }
 
     disconnectedCallback(): void {
       if (!this.#connected) return;
       this.#connected = false;
-      const cleanup = this.#cleanup;
-      this.#cleanup = null;
-      cleanup?.();
+      const cleanups = this.#cleanups;
+      this.#cleanups = null;
+      runCleanups(cleanups);
     }
   }
 

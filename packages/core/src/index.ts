@@ -20,6 +20,8 @@ export {
 } from './signal.ts';
 export type { Signal, Computed, Reactive, Sub } from './signal.ts';
 
+export { onCleanup, runWithCleanup, runCleanups } from './lifecycle.ts';
+
 export {
   html,
   append,

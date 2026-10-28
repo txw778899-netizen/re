@@ -27,6 +27,8 @@ jobs:
         run: npm test -w @zhenre/vite-plugin
       - name: Test create-re
         run: npm test -w create-re
+      - name: Test ecosystem (utils/animation/store/router/request/message/form)
+        run: npm test -w @zhenre/utils -w @zhenre/animation -w @zhenre/store -w @zhenre/router -w @zhenre/request -w @zhenre/message -w @zhenre/form
       - name: Benchmark correctness (Chromium)
         run: |
           node bench/build.mjs

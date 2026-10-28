@@ -77,6 +77,24 @@ defineElement('re-counter', (el, root) => {
 }, { shadow: false }); // shadow: true 时 root 为 shadowRoot
 ```
 
+### onCleanup — 清理上下文（0.3.0 新增）
+
+组件 setup、keyed 行渲染、以及任何 `runWithCleanup` 作用域都会打开一个
+清理上下文；在其中调用 `onCleanup(fn)` 会随所有者销毁自动执行，
+`effect()` 也会自动登记（随作用域一起销毁，无需手动管理）：
+
+```ts
+defineElement('re-clock', (el, root) => {
+  const now = signal(new Date().toLocaleTimeString());
+  const t = setInterval(() => (now.value = new Date().toLocaleTimeString()), 1000);
+  onCleanup(() => clearInterval(t));   // 组件注销时自动清理
+  effect(() => document.title = now.value); // 同样随组件销毁
+  root.append(html`<span>${now}</span>`);
+});
+```
+
+`@zhenre/store` 的组件级 store 自动销毁正是建立在这个原语之上。
+
 ## 构建
 
 ```bash

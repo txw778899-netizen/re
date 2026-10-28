@@ -12,8 +12,9 @@
     "node": ">=20.19"
   },
   "scripts": {
-    "build": "npm run build --workspaces --if-present",
-    "test": "npm run test --workspaces --if-present",
+    "build": "npm run build -w @zhenre/core && npm run build --workspaces --if-present",
+    "test": "npm run build -w @zhenre/core && npm run test --workspaces --if-present",
+    "sizes": "node scripts/sizes.mjs",
     "bench:serve": "node bench/server.mjs",
     "bench:verify": "node bench/harness/verify.mjs",
     "bench:run": "node bench/harness/run.mjs",

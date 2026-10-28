@@ -11,6 +11,8 @@
  *  - Erasable-only TypeScript (runs natively under node --test with type stripping).
  */
 
+import { registerCleanup } from './lifecycle.ts';
+
 /** A reactive subscriber. `run` receives the new value for direct (DOM) subs. */
 export interface Sub {
   run(v: unknown): void;
@@ -262,9 +264,15 @@ export function effect(fn: () => void): () => void {
     }
   }
   rerun();
-  return () => {
+  const dispose = () => {
     dropDeps(e);
   };
+  // Auto-register into an open cleanup context (component setup, list row,
+  // store, runWithCleanup): effects die with the scope that created them.
+  // Double disposal (e.g. template engines also tracking the disposer) is
+  // safe — dropDeps is idempotent.
+  registerCleanup(dispose);
+  return dispose;
 }
 
 export function batch<T>(fn: () => T): T {

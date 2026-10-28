@@ -22,6 +22,23 @@
 import type { Signal, Sub } from './signal.ts';
 import { owner } from './signal.ts';
 import { ReFragment } from './fragment.ts';
+import { popScope, pushScope, runCleanups } from './lifecycle.ts';
+
+/** Row-scoped cleanup bags for rows whose render returned a plain node. */
+const rowBags = new WeakMap<ChildNode, (() => void)[]>();
+
+/** Dispose one row: fragment teardown, then its row bag (only when the view
+ *  ever registered one — keeps the plain-row path WeakMap-free). */
+function disposeRow(row: ChildNode, checkBags: boolean): void {
+  (row as RowWithFr)._$fr?.dispose();
+  if (checkBags) {
+    const b = rowBags.get(row);
+    if (b !== undefined) {
+      rowBags.delete(row);
+      runCleanups(b);
+    }
+  }
+}
 
 /** Build rows for items[start..start+n) into `target`; push roots into `rowsOut`. */
 export interface RowBatchFn<T> {
@@ -50,6 +67,7 @@ export class KeyedView<T> {
   r: ChildNode[] = []; // row roots
   k: unknown[] | null = null; // keys (lazy)
   private _fr = false;
+  private _bags = false;
   private _sub: Sub | null = null;
   private _m = false;
   private readonly _ctx = {};
@@ -207,7 +225,7 @@ export class KeyedView<T> {
       if (keys[i] !== key) continue;
       const rows = this.r;
       const row = rows[i]!;
-      if (this._fr) (row as RowWithFr)._$fr?.dispose();
+      if (this._fr || this._bags) disposeRow(row, this._bags);
       row.remove();
       keys.splice(i, 1);
       rows.splice(i, 1);
@@ -255,17 +273,27 @@ export class KeyedView<T> {
   private _create(item: T): ChildNode {
     const prev = owner.current;
     owner.current = this._ctx;
+    const frame = pushScope();
     let r: Node;
+    let bag: (() => void)[] | null = null;
     try {
       r = this._render(item);
     } finally {
+      bag = popScope(frame);
       owner.current = prev;
     }
     if (r instanceof ReFragment) {
+      if (bag !== null) {
+        r.disposers = r.disposers === null ? bag : [...r.disposers, ...bag];
+      }
       const root = (r.root ?? r) as ChildNode;
       this._fr = true;
       (root as RowWithFr)._$fr = r;
       return root;
+    }
+    if (bag !== null) {
+      rowBags.set(r as ChildNode, bag);
+      this._bags = true;
     }
     return r as ChildNode;
   }
@@ -320,7 +348,7 @@ export class KeyedView<T> {
   private _replaceAll(next: readonly T[]): void {
     const parent = this._pn;
     const rows = this.r;
-    if (this._fr) this._disposeAll();
+    if (this._fr || this._bags) this._disposeAll();
     const ownedOnly =
       parent.childNodes.length === rows.length + 1 && this.anchor.parentNode === parent;
     rows.length = 0;
@@ -348,7 +376,7 @@ export class KeyedView<T> {
   private _clear(): void {
     const parent = this._pn;
     const rows = this.r;
-    if (this._fr) this._disposeAll();
+    if (this._fr || this._bags) this._disposeAll();
     if (parent.childNodes.length === rows.length + 1 && this.anchor.parentNode === parent) {
       parent.replaceChildren(this.anchor);
     } else {
@@ -360,8 +388,11 @@ export class KeyedView<T> {
 
   private _disposeAll(): void {
     const rows = this.r;
-    for (let i = 0; i < rows.length; i++) (rows[i] as RowWithFr)._$fr?.dispose();
+    if (this._fr || this._bags) {
+      for (let i = 0; i < rows.length; i++) disposeRow(rows[i]!, this._bags);
+    }
     this._fr = false;
+    this._bags = false;
   }
 
   private _diff(next: readonly T[]): void {
@@ -378,7 +409,7 @@ export class KeyedView<T> {
       if (nextKeys.has(kk)) kept.set(kk, rows[i]!);
       else {
         const row = rows[i]!;
-        if (this._fr) (row as RowWithFr)._$fr?.dispose();
+        if (this._fr || this._bags) disposeRow(row, this._bags);
         row.remove();
       }
     }
