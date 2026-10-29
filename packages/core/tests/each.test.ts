@@ -209,6 +209,86 @@ test('each: works with anchor + foreign siblings (no fast-path corruption)', () 
   assert.ok(h.querySelector('p') === p, 'foreign sibling intact');
 });
 
+test('each: swapAt (index-addressed, no key materialization)', () => {
+  const rows = signal(mkRows(5));
+  const list = each(rows, (r) => r.id, rowTpl);
+  const h = host();
+  append(h, html`<section>${list}</section>`);
+  list.swapAt(1, 4);
+  assert.deepEqual(texts(h.querySelector('section') as HTMLElement), ['r1', 'r5', 'r3', 'r4', 'r2']);
+  // source array stays aligned (index space = DOM order)
+  assert.equal(rows.peek()[1]!.id, 5);
+  assert.equal(rows.peek()[4]!.id, 2);
+  // out-of-bounds / same-index are silent no-ops
+  list.swapAt(0, 99);
+  list.swapAt(2, 2);
+  assert.deepEqual(texts(h.querySelector('section') as HTMLElement), ['r1', 'r5', 'r3', 'r4', 'r2']);
+});
+
+test('each: removeAt (index-addressed) keeps keys coherent for later key ops', () => {
+  const rows = signal(mkRows(6));
+  const list = each(rows, (r) => r.id, rowTpl);
+  const h = host();
+  append(h, html`<section>${list}</section>`);
+  list.removeAt(2); // remove r3
+  assert.deepEqual(texts(h.querySelector('section') as HTMLElement), ['r1', 'r2', 'r4', 'r5', 'r6']);
+  assert.equal(rows.peek().length, 5);
+  // key-addressed ops must still work after index-addressed ones
+  list.swapAt(0, 4); // r6 <-> r1  ->  [r6, r2, r4, r5, r1]
+  list.remove(6);    // by key — index space must be coherent
+  assert.deepEqual(texts(h.querySelector('section') as HTMLElement), ['r2', 'r4', 'r5', 'r1']);
+  // append after removals stays aligned
+  rows.value = rows.peek().concat(mkRows(1, 100));
+  assert.deepEqual(texts(h.querySelector('section') as HTMLElement), ['r2', 'r4', 'r5', 'r1', 'r101']);
+});
+
+test('each: batch renderer object drives mega-template path (no cast)', async () => {
+  const { rowRenderer } = await import('../src/index.ts');
+  const rows = signal(mkRows(130)); // 2 full 50-batches + 30 tail
+  const rr = rowRenderer<Row>(
+    '<div class="row"><b></b><i></i></div>',
+    [[0, 0], [1, 0]],
+    {
+      values(r, t) {
+        t[0]!.data = '' + r.id;
+        t[1]!.data = r.label;
+      },
+    },
+  );
+  const list = each(rows, (r) => r.id, rr);
+  const h = host();
+  append(h, html`<section>${list}</section>`);
+  const sec = h.querySelector('section') as HTMLElement;
+  const out = Array.from(sec.children).map((c) => c.textContent);
+  assert.equal(out.length, 130);
+  assert.equal(out[0], '1r1');
+  assert.equal(out[129], '130r130');
+  // keyed direct ops on batch-built rows
+  list.swapAt(0, 1);
+  assert.equal((sec.children[0] as HTMLElement).textContent, '2r2');
+  list.removeAt(3);
+  assert.equal(sec.children.length, 129);
+  // replace-all with disjoint keys (batch path)
+  rows.value = mkRows(60, 500);
+  assert.equal(sec.children.length, 60);
+  assert.equal((sec.children[0] as HTMLElement).textContent, '501r501');
+  // clear
+  rows.value = [];
+  assert.equal(sec.children.length, 0);
+});
+
+test('mountEach: mounts immediately (lean embedding is live)', async () => {
+  const { mountEach } = await import('../src/index.ts');
+  const rows = signal(mkRows(2));
+  const list = each(rows, (r) => r.id, rowTpl);
+  const h = host();
+  const view = mountEach(h, list);
+  assert.deepEqual(texts(h), ['r1', 'r2']);
+  rows.value = mkRows(3); // signal subscription must already be live
+  assert.deepEqual(texts(h), ['r1', 'r2', 'r3']);
+  assert.equal(view.size, 3);
+});
+
 function el(tag: string, text?: string): HTMLElement {
   const e = document.createElement(tag);
   if (text !== undefined) e.textContent = text;

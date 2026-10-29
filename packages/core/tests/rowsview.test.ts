@@ -15,7 +15,7 @@ const PATHS = [[0, 0], [1, 0, 0]];
 function makeFill(state: { id: number }) {
   const render = rowRenderer<unknown>(SRC, PATHS, {
     values(_: unknown, texts: Text[]) {
-      texts[0]!.data = state.id++;
+      texts[0]!.data = '' + state.id++;
       texts[1]!.data = 'label ' + state.id;
     },
   });

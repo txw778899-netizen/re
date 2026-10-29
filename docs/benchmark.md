@@ -60,3 +60,10 @@ node bench/harness/stats.mjs  # 输出对比表 + bench/results/summary.json
 - 本仓库数据来自共享 CPU 沙箱（Chromium via Playwright），绝对值不可与官方榜单跨机对比；**factor（相对同轮 vanilla）是本仓库的有效结论**。
 - 「启动时间 / Lighthouse 类」指标未采集（官方口径依赖其 runner），核心 gzip 3.9KB、运行时零调度器是定性的启动优势。
 - 提交官方仓库前需按其 `npm run rebuild-ci` 与 `isKeyed` 校验流程再验一遍（本仓库 verify.mjs 已覆盖其行为断言的超集）。
+
+## core 版本配对法（lifecycle 回归验证）
+
+`bench/build.mjs [entry]` 支持别名切换（如 npm 在发版的 `dist/re.js`），配合
+`../scripts/compare-pooled.mjs`（仓库外层 scripts/） 做 A/B/A/B 交错池化对比：每版本各跑两场（对消会话级
+慢漂移），按操作池化取中位数，vanilla 同场对照给出漂移地板。单轮 A/B 对 1k 级
+操作的分辨率不足（±5%），交错池化后 CPU 列分辨率约 ±1–2%。

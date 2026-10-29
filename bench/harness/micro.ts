@@ -28,7 +28,7 @@ const list = each(rows, (r) => r.id, rowTpl);
 const tbody = document.getElementById('tbody')!;
 append(tbody, html`${list}`);
 
-const raf = () => new Promise<void>((r) => requestAnimationFrame(() => requestAnimationFrame(r)));
+const raf = () => new Promise<void>((r) => requestAnimationFrame(() => requestAnimationFrame(() => r())));
 
 async function run(): Promise<Record<string, string>> {
   const out: Record<string, string> = {};

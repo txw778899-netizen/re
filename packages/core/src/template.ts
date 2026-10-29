@@ -14,7 +14,7 @@
  */
 
 import { effect, isSignal, owner } from './signal.ts';
-import type { Sub } from './signal.ts';
+import type { Sub, ReOwner } from './signal.ts';
 
 /* ------------------------------------------------------------------ */
 /* types                                                               */
@@ -258,11 +258,16 @@ function wireAttr(el: Element, name: string, v: unknown, frag: ReFragment): void
     setPropOrAttr(el, name, v.value);
     v.$sub(sub);
     if ((v as { _own?: object })._own !== owner.current) {
-      const sig = v;
-      if (frag.disposers === null) frag.disposers = [];
-      frag.disposers.push(() => {
-        sig.$unsub(sub);
-      });
+      if (frag.sub0 === null) {
+        frag.sig0 = v;
+        frag.sub0 = sub;
+      } else {
+        if (frag.disposers === null) frag.disposers = [];
+        const sig = v;
+        frag.disposers.push(() => {
+          sig.$unsub(sub);
+        });
+      }
     }
     return;
   }
@@ -272,7 +277,10 @@ function wireAttr(el: Element, name: string, v: unknown, frag: ReFragment): void
 function instantiate(c: CompiledTemplate, vals: unknown[]): ReFragment {
   const frag = new ReFragment();
   const clone = c.content.cloneNode(true);
-  while (clone.firstChild !== null) frag.appendChild(clone.firstChild);
+  // single native move of the whole cloned subtree (a DocumentFragment
+  // appendChild adopts all children at once — the old per-node loop cost
+  // ~1 extra native call per template node on every row)
+  frag.appendChild(clone);
   frag.root = frag.firstChild;
   const slots = c.slots;
 
@@ -296,11 +304,16 @@ function instantiate(c: CompiledTemplate, vals: unknown[]): ReFragment {
         // Skip unsubscribe for signals created inside this row's render —
         // both die together, so cleanup would be dead weight.
         if ((v as { _own?: object })._own !== owner.current) {
-          const sig = v;
-          if (frag.disposers === null) frag.disposers = [];
-          frag.disposers.push(() => {
-            sig.$unsub(sub);
-          });
+          if (frag.sub0 === null) {
+            frag.sig0 = v;
+            frag.sub0 = sub;
+          } else {
+            if (frag.disposers === null) frag.disposers = [];
+            const sig = v;
+            frag.disposers.push(() => {
+              sig.$unsub(sub);
+            });
+          }
         }
       } else if (typeof v === 'function') {
         if (frag.disposers === null) frag.disposers = [];
@@ -325,9 +338,27 @@ function instantiate(c: CompiledTemplate, vals: unknown[]): ReFragment {
               if (frag.mounts === null) frag.mounts = [];
               for (let k = 0; k < v.mounts.length; k++) frag.mounts.push(v.mounts[k]!);
             }
+            // adopt the nested fragment's inline subscription pair first so
+            // the outer fragment keeps its zero-alloc fast path
+            if (v.sub0 !== null) {
+              if (frag.sub0 === null) {
+                frag.sig0 = v.sig0;
+                frag.sub0 = v.sub0;
+              } else {
+                const sig = v.sig0;
+                const sub = v.sub0;
+                if (frag.disposers === null) frag.disposers = [];
+                frag.disposers.push(() => {
+                  (sig as ReOwner).$unsub(sub!);
+                });
+              }
+              v.sig0 = null;
+              v.sub0 = null;
+            }
             if (v.disposers !== null) {
               if (frag.disposers === null) frag.disposers = [];
               for (let k = 0; k < v.disposers.length; k++) frag.disposers.push(v.disposers[k]!);
+              v.disposers = null;
             }
           }
         } else {

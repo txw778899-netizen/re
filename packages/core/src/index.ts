@@ -33,7 +33,7 @@ export {
 export type { Slot, CompiledTemplate } from './template.ts';
 
 export { each, KeyedView, mountEach, mountList } from './each.ts';
-export type { EachDirective, RowBatchFn } from './each.ts';
+export type { EachDirective, RowBatchFn, RowRender } from './each.ts';
 
 export { rowRenderer } from './factory.ts';
 export type { CompiledRowRenderer, RowRendererOptions } from './factory.ts';

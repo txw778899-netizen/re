@@ -37,7 +37,7 @@ test('rowRenderer: batch builds all rows with slot values + bind refs', () => {
   const seen: number[] = [];
   const rr = rowRenderer<R>(SRC, PATHS, {
     values(r, texts) {
-      texts[0]!.data = r.id;
+      texts[0]!.data = '' + r.id;
       texts[1]!.data = r.label;
     },
     bind(r, tr, texts) {
@@ -61,7 +61,7 @@ test('rowRenderer: tail batch is trimmed (no phantom rows)', () => {
   const rows = mkRows(53);
   const rr = rowRenderer<R>(SRC, PATHS, {
     values(r, texts) {
-      texts[0]!.data = r.id;
+      texts[0]!.data = '' + r.id;
       texts[1]!.data = r.label;
     },
   });
@@ -76,7 +76,7 @@ test('rowRenderer: values write numbers (id) via text.data', () => {
   const rows = mkRows(3);
   const rr = rowRenderer<R>(SRC, PATHS, {
     values(r, texts) {
-      texts[0]!.data = r.id;
+      texts[0]!.data = '' + r.id;
       texts[1]!.data = r.label;
     },
   });
@@ -90,7 +90,7 @@ test('mountList: end-to-end init/append/replace/clear/swap/remove', () => {
   const rows = signal<R[]>(mkRows(100));
   const rr = rowRenderer<R>(SRC, PATHS, {
     values(r, texts) {
-      texts[0]!.data = r.id;
+      texts[0]!.data = '' + r.id;
       texts[1]!.data = r.label;
     },
     bind(r, tr, texts) {

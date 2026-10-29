@@ -194,9 +194,20 @@ export function rowRenderer<T>(
       for (let s = 0; s < paths.length; s++) scratch[s] = undefined!;
       // discard the staging fragment after the build: it is pure build-time
       // machinery (a plain fragment, no owner-document cost). Rebuilding
-      // costs only `batch - 1` cloneNode calls at the next build.
+      // costs only `batch` cloneNode calls at the next build. (Measured in
+      // R6: retaining staging across builds LOSES ~+0.6% geomean — the
+      // warm rebuild cost is smaller than the retained-subtree overhead.)
       stage = null;
       stageTexts = null;
     },
   };
 }
+
+/* Batch-size sensitivity (measured, R7 — 2026-10-29): 64 vs 128 is a WASH on
+ * the official bench. Total node-copy work (n + B staging rows) and insert
+ * work are B-invariant; only 2*ceil(n/B) native call overhead changes, worth
+ * ~0.15ms on 07's ~465ms (and staging shrinks/grows by the same amount).
+ * Pooled interleaved verdict: 07 -0.07% (sign flips between legs), geomean
+ * +0.12% — all inside a 1.25% drift floor. Default 64 kept; an adaptive
+ * `batch(n)` hook would be machinery without a measurable payoff. */
+
